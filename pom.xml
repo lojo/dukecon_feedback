@@ -36,14 +36,21 @@
         <nexus.repository.port />
         <nexus.repository.base>/nexus</nexus.repository.base>
 
-        <asciidoctor-maven-plugin.version>1.5.3</asciidoctor-maven-plugin.version>
-        <asciidoctorj.diagram.version>1.3.1</asciidoctorj.diagram.version>
-
         <!--<base.generated.docs.dir>${project.build.directory}/generated-docs</base.generated.docs.dir>-->
         <!--<generated.asciidoc.directory>${base.generated.docs.dir}/asciidoc</generated.asciidoc.directory>-->
         <!--<asciidoctor.input.directory>${project.basedir}/src/docs/asciidoc</asciidoctor.input.directory>-->
         <!--<asciidoctor.html.output.directory>${base.generated.docs.dir}/html</asciidoctor.html.output.directory>-->
         <!--<asciidoctor.pdf.output.directory>${base.generated.docs.dir}/pdf</asciidoctor.pdf.output.directory>-->
+
+        <!-- Please keep (version) properties in alphabetical order! -->
+        <asciidoctor-maven-plugin.version>1.5.3</asciidoctor-maven-plugin.version>
+        <asciidoctorj.diagram.version>1.3.1</asciidoctorj.diagram.version>
+        <junit-jupiter.version>5.1.0</junit-jupiter.version>
+        <junit-platform-surefire-provider.version>1.0.1</junit-platform-surefire-provider.version>
+        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
+
+        <!-- Check automatic versions from time to time! -->
     </properties>
 
     <scm>
