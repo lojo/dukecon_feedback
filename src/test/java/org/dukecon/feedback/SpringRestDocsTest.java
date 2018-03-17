@@ -46,7 +46,7 @@ class SpringRestDocsTest {
     void postFeedback() throws Exception {
         FeedbackInput feedback = new FeedbackInput(3, "test");
 
-        this.mockMvc.perform(put("/talk/{talkid}", "111")
+        this.mockMvc.perform(put("/rest/feedback/talk/{talkid}", "111")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(feedback)))
                 .andExpect(status().isCreated())

@@ -16,6 +16,7 @@ public class DukeconFeedbackApplication {
         SpringApplication.run(DukeconFeedbackApplication.class, args);
     }
 
+    @RequestMapping ("rest/feedback")
     @RestController
     private static class FeedbackController {
         @PutMapping("talk/{talkId}")
