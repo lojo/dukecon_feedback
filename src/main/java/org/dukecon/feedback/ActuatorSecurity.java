@@ -1,9 +1,9 @@
 package org.dukecon.feedback;
 
-import org.springframework.boot.actuate.autoconfigure.security.servlet.*;
-import org.springframework.context.annotation.*;
-import org.springframework.security.config.annotation.web.builders.*;
-import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
 public class ActuatorSecurity extends WebSecurityConfigurerAdapter {
