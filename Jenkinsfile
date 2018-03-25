@@ -18,6 +18,7 @@ pipeline {
                     script {
                         if (env.BRANCH_NAME == "develop") {
                             sh 'mvn clean deploy -Pdocker'
+                            build 'docker_restart_develop_latest'
                         } else {
                             sh 'mvn clean verify'
                         }
