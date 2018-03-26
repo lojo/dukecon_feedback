@@ -26,7 +26,6 @@ public class DukeconFeedbackApplication {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
 
-
         @GetMapping("event/{conferenceId}/{eventId}")
         public String existsFeedback(@PathVariable("conferenceId") String conferenceId, @PathVariable("eventId") String eventId) {
             return "Ok (Dummy data)";
