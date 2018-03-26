@@ -34,7 +34,7 @@
 
         <base.generated.docs.dir>${project.build.directory}/generated-docs</base.generated.docs.dir>
         <generated.asciidoc.directory>${base.generated.docs.dir}/asciidoc</generated.asciidoc.directory>
-        <asciidoctor.input.directory>${project.basedir}/src/main/asciidoc</asciidoctor.input.directory>
+        <asciidoctor.input.directory>${project.basedir}/src/docs/asciidoc</asciidoctor.input.directory>
 
         <!-- Please keep (version) properties in alphabetical order! -->
         <asciidoctor-maven-plugin.version>1.5.3</asciidoctor-maven-plugin.version>
