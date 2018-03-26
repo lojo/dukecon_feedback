@@ -63,6 +63,13 @@ use of HTTP status codes.
 [[resources-feedback-create]]
 === Create feedback
 
-A `POST` request is used to create a feedback.
+A `PUT` request is used to create a feedback.
 
 operation::send-feedback[]
+
+[[resources-feedback-get]]
+=== Get feedback
+
+A `GET` request is used to get feedback for event.
+
+operation::get-feedback[]

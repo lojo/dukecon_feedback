@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -64,4 +65,14 @@ class SpringRestDocsTest {
         Assertions.assertEquals("", result.getResponse().getContentAsString());
     }
 
+    @Test
+    void getFeedback() throws Exception {
+        this.mockMvc.perform(get("/rest/feedback/event/{conferenceId}/{eventId}", "javaland2018", "111")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andDo(document("get-feedback", pathParameters(
+                        parameterWithName("conferenceId").description("The conference's id"),
+                        parameterWithName("eventId").description("The event's id")
+                )));
+    }
 }
