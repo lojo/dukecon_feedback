@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -39,7 +40,10 @@ class SpringRestDocsTest {
     @BeforeEach
     void setUp(RestDocumentationExtension restDocumentation) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(documentationConfiguration(restDocumentation)).build();
+                .apply(documentationConfiguration(restDocumentation))
+                .alwaysDo(document("{method-name}",
+                        preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
+                .build();
     }
 
     @Test
@@ -50,9 +54,9 @@ class SpringRestDocsTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(feedback)))
                 .andExpect(status().isCreated())
-                .andDo(document("sendFeedback", requestFields(fieldWithPath("rating").description("The talk's rating"),
+                .andDo(document("send-feedback", requestFields(fieldWithPath("rating").description("The talk's rating"),
                         fieldWithPath("comment").description("free comment of attendee about this event"))))
-                .andDo(document("sendFeedback", pathParameters(
+                .andDo(document("send-feedback", pathParameters(
                         parameterWithName("conferenceId").description("The conference's id"),
                         parameterWithName("eventId").description("The event's id")
                 )))
