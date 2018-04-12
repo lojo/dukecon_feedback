@@ -37,3 +37,12 @@ spring:
   flyway:
     enabled: false
     locations: classpath:db/migration/common,classpath:db/migration/h2
+
+---
+
+spring:
+  profiles: debug-spring
+
+logging:
+  level:
+      org.springframework: debug
