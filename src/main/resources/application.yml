@@ -38,6 +38,28 @@ spring:
     enabled: false
     locations: classpath:db/migration/common,classpath:db/migration/h2
 
+
+---
+
+keycloak-client:
+  realm: dukecon-latest
+
+spring:
+  profiles: latest
+# KeyCloak
+  security:
+    oauth2:
+      client:
+        registration:
+          dukecon-latest: # This is the id used inside the redirect-uri-template, must be the same as your realm
+            client-id: dukecon
+            client-secret: 7585621d-bc63-4718-8d18-fc9cd2c6a22d
+            client-name: dukecon
+            provider: keycloak
+            scope: openid, profile
+            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+
 ---
 
 spring:
