@@ -1,34 +1,120 @@
 package org.dukecon.feedback;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
+import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
+import org.keycloak.adapters.springsecurity.client.KeycloakClientRequestFactory;
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
+import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
+import org.keycloak.adapters.springsecurity.filter.KeycloakAuthenticationProcessingFilter;
+import org.keycloak.adapters.springsecurity.filter.KeycloakPreAuthActionsFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
-import static org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
-
-@Configuration
+/**
+ * Configure Keycloak authentication.
+ *
+ * This is heavily inspired by https://blog.codecentric.de/2017/09/keycloak-und-spring-security-teil-2-integration-von-keycloak-in-spring-security/
+ */
+@KeycloakConfiguration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-    @Value("${keycloak-client.realm}")
-    final String realm = null;
+    private final KeycloakClientRequestFactory keycloakClientRequestFactory;
+
+    public SecurityConfig(KeycloakClientRequestFactory keycloakClientRequestFactory) {
+        this.keycloakClientRequestFactory = keycloakClientRequestFactory;
+
+        //to use principal and authentication together with @async
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+
+    }
+
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public KeycloakRestTemplate keycloakRestTemplate() {
+        return new KeycloakRestTemplate(keycloakClientRequestFactory);
+    }
 
     /**
-     * Configures OAuth Login with Spring Security 5.
-     *
-     * Thanks to Michael Simons for providing such a nice example in
-     * http://info.michael-simons.eu/2017/12/28/use-keycloak-with-your-spring-boot-2-application/
+     * registers the Keycloakauthenticationprovider in spring context
+     * and sets its mapping strategy for roles/authorities (mapping to spring seccurities' default ROLE_... for authorities ).
+     * @param auth SecurityBuilder to build authentications and add details like authproviders etc.
+     * @throws Exception
+     */
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        KeycloakAuthenticationProvider keyCloakAuthProvider = keycloakAuthenticationProvider();
+        keyCloakAuthProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+
+        auth.authenticationProvider(keyCloakAuthProvider);
+    }
+
+    /**
+     * Sets keycloaks config resolver to use springs application.properties instead of keycloak.json (which is standard)
+     * @return
+     */
+    @Bean
+    public KeycloakConfigResolver KeyCloakConfigResolver(){
+        return new KeycloakSpringBootConfigResolver();
+    }
+
+    /**
+     * define the session auth strategy so that no session is created
+     * @return concrete implementation of session authentication strategy
+     */
+    @Bean
+    @Override
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new NullAuthenticatedSessionStrategy();
+    }
+
+    /**
+     * define the actual constraints of the app.
+     * @param http
+     * @throws Exception
      */
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-            .anyRequest().permitAll()
-            .and()
-            // This is the point where OAuth2 login of Spring 5 gets enabled
-            .oauth2Login()
-            .loginPage(DEFAULT_AUTHORIZATION_REQUEST_BASE_URI + "/" + realm);
+    protected void configure(HttpSecurity http) throws Exception
+    {
+        super.configure(http);
+        http.cors()
+                .and()
+                .csrf()
+                .disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
+                .and()
+                .authorizeRequests()
+                .anyRequest().permitAll();
+        // further permissions to specific REST endpoints use @PreAuthorize annotations
+    }
+
+    @Bean
+    public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(
+            KeycloakAuthenticationProcessingFilter filter) {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        registrationBean.setEnabled(false);
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean(
+            KeycloakPreAuthActionsFilter filter) {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        registrationBean.setEnabled(false);
+        return registrationBean;
     }
 }

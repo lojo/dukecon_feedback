@@ -1,31 +1,15 @@
 server:
   use-forward-headers: true
 
-keycloak-client:
-  server-url: https://dukecon.org/auth
+keycloak:
   realm: dukecon-developer
+  auth-server-url: https://keycloak.dukecon.org/auth
+  ssl-required: none
+  resource: dukecon
+  credentials:
+    secret: b2e0a96a-705a-48c2-8d04-b5d7c0c79bf7
 
 spring:
-# KeyCloak
-  security:
-    oauth2:
-      client:
-        registration:
-          dukecon-developer: # This is the id used inside the redirect-uri-template, must be the same as your realm
-            client-id: dukecon
-            client-secret: b2e0a96a-705a-48c2-8d04-b5d7c0c79bf7
-            client-name: dukecon
-            provider: keycloak
-            scope: openid, profile
-            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
-            authorization-grant-type: authorization_code
-        provider:
-          keycloak:
-            token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
-            authorization-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/auth
-            user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
-            jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
-            user-name-attribute: preferred_username
 # H2
   h2:
     console:
@@ -41,27 +25,15 @@ spring:
     enabled: false
     locations: classpath:db/migration/common,classpath:db/migration/h2
 
-
 ---
 
-keycloak-client:
+keycloak:
   realm: dukecon-latest
+  credentials:
+    secret: 7585621d-bc63-4718-8d18-fc9cd2c6a22d
 
 spring:
   profiles: latest
-# KeyCloak
-  security:
-    oauth2:
-      client:
-        registration:
-          dukecon-latest: # This is the id used inside the redirect-uri-template, must be the same as your realm
-            client-id: dukecon
-            client-secret: 7585621d-bc63-4718-8d18-fc9cd2c6a22d
-            client-name: dukecon
-            provider: keycloak
-            scope: openid, profile
-            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
-            authorization-grant-type: authorization_code
 
 ---
 

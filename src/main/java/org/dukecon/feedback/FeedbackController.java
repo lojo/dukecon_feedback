@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("rest/feedback")
 @RestController
-@PreAuthorize("isAuthenticated()")
+@PreAuthorize("isFullyAuthenticated() && hasRole('user')")
 public class FeedbackController {
     @PutMapping("event/{conferenceId}/{eventId}")
     public ResponseEntity sendFeedback(@PathVariable("conferenceId") String conferenceId, @PathVariable("eventId") String eventId, @RequestBody FeedbackInput feedbackInput) {
@@ -23,6 +23,7 @@ public class FeedbackController {
 
     @GetMapping("event/{conferenceId}/{eventId}")
     public String existsFeedback(@PathVariable("conferenceId") String conferenceId, @PathVariable("eventId") String eventId) {
+        System.out.println(String.format("feedback for %s/%s (Authentication: %s)", conferenceId, eventId, SecurityContextHolder.getContext().getAuthentication()));
         return "Ok (Dummy data)";
     }
 }
