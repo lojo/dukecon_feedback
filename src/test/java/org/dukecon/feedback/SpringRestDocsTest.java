@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@WithMockUser
+@WithMockUser(roles = {"user"})
 class SpringRestDocsTest {
 
     @Autowired
