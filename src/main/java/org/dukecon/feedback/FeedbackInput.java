@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class FeedbackInput {
+public class FeedbackInput {
     private int rating;
     private String comment;
 }
