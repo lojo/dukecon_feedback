@@ -17,8 +17,8 @@ public class FeedbackStoreJpa implements FeedbackStore {
             = FeedbackEntity
                 .builder()
                 .author(feedback.getAuthor())
-                .conference(feedback.getConferenceId().toString())
-                .talk(feedback.getTalkId().toString())
+                .conference(feedback.getConferenceId().getId())
+                .talk(feedback.getTalkId().getId())
                 .rating(feedback.getRating())
                 .comment(feedback.getComment())
                 .build();
