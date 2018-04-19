@@ -14,42 +14,33 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: true
-# H2
-  h2:
-    console:
-      enabled: true
-      path: /h2
-# Datasource
+
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
   flyway:
     locations: classpath:db/migration/common,classpath:db/migration/h2
     enabled: true
 
+  h2:
+    console:
+      enabled: true
+      path: /h2
 ---
+spring:
+  profiles: latest
 
 keycloak:
   realm: dukecon-latest
   credentials:
     secret: 7585621d-bc63-4718-8d18-fc9cd2c6a22d
-
-spring:
-  profiles: latest
-
 ---
-
 spring:
   profiles: postgres-local
 
-postgres:
-  host: localhost
-  port: 5432
-  dbname: dukecon
-
-spring:
   jpa:
     database: POSTGRESQL
     platform: postgres
@@ -60,11 +51,13 @@ spring:
   h2:
     console:
       enabled: false
+
   datasource:
     url: ${spring.flyway.url}
     username: dukecon
     password: dukecon
     driver-class-name: org.postgresql.Driver
+
   flyway:
     locations: classpath:db/migration/common,classpath:db/migration/postgresql
     driver: org.postgresql.Driver
@@ -72,8 +65,11 @@ spring:
     user: dukecon
     password: dukecon
 
+postgres:
+  host: localhost
+  port: 5432
+  dbname: dukecon
 ---
-
 spring:
   profiles: debug-spring
 
@@ -82,3 +78,4 @@ logging:
     org:
       springframework: debug
       flywaydb: debug
+---
