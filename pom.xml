@@ -45,8 +45,10 @@
         <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
         <git-commit-id-plugin.version>2.2.4</git-commit-id-plugin.version>
         <junit-jupiter.version>5.1.0</junit-jupiter.version>
-        <junit-platform-surefire-provider.version>1.1.0</junit-platform-surefire-provider.version>
+        <junit-platform.version>1.1.0</junit-platform.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <mockito-junit-jupiter.version>2.18.0</mockito-junit-jupiter.version>
+        <mockito.version>1.10.19</mockito.version>
         <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
         <spring-restdocs.version>2.0.1.RELEASE</spring-restdocs.version>
 
@@ -137,11 +139,6 @@
             </dependency>
             <!-- Keep managed dependencies in the alphabetical order of groupId + artifactId / don't provide scope! -->
             <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-surefire-provider</artifactId>
-                <version>${junit-platform-surefire-provider.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
                 <version>${junit-jupiter.version}</version>
@@ -150,6 +147,26 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit-jupiter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-runner</artifactId>
+                <version>${junit-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-surefire-provider</artifactId>
+                <version>${junit-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito-junit-jupiter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -177,6 +194,26 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -250,7 +287,7 @@
                         <dependency>
                             <groupId>org.junit.platform</groupId>
                             <artifactId>junit-platform-surefire-provider</artifactId>
-                            <version>${junit-platform-surefire-provider.version}</version>
+                            <version>${junit-platform.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.junit.jupiter</groupId>
