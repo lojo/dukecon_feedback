@@ -10,6 +10,10 @@ keycloak:
     secret: b2e0a96a-705a-48c2-8d04-b5d7c0c79bf7
 
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: true
 # H2
   h2:
     console:
@@ -22,7 +26,7 @@ spring:
     password:
     driver-class-name: org.h2.Driver
   flyway:
-    enabled: false
+    enabled: true
     locations: classpath:db/migration/common,classpath:db/migration/h2
 
 ---
@@ -42,4 +46,6 @@ spring:
 
 logging:
   level:
-      org.springframework: debug
+    org:
+      springframework: debug
+      flywaydb: debug
