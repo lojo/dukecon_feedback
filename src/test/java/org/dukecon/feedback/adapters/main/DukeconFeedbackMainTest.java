@@ -7,7 +7,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class DukeconFeedbackMainTests {
+public class DukeconFeedbackMainTest {
 
     @Test
     public void contextLoads() {
