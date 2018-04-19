@@ -1,4 +1,4 @@
-package org.dukecon.feedback;
+package org.dukecon.feedback.adapters.rest;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;

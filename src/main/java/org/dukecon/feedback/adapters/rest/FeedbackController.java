@@ -1,4 +1,4 @@
-package org.dukecon.feedback;
+package org.dukecon.feedback.adapters.rest;
 
 import org.dukecon.feedback.domain.DukeconFeedbackApplication;
 import org.dukecon.feedback.domain.model.ConferenceId;

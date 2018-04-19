@@ -1,7 +1,7 @@
 package org.dukecon.feedback.adapters.main;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.dukecon.feedback.FeedbackInput;
+import org.dukecon.feedback.adapters.rest.FeedbackInput;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
