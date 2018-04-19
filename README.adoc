@@ -14,12 +14,25 @@ Tim Riemer; Falk Sippach
 ** request body: FeedbackInput(int rating, String comment)
 ** returns 201 if feedback is created
 ** returns 401 if no valid auth context (bearer token) exists
+* test REST URLs with IntelliJ HTTP Client (New -> HTTP Request)
+** sample requests under /samples
+*** get-token.http (get bearer token)
+*** put-feedback.http (replace bearer token with current one)
 
-== TODOs
+=== DB
+* H2 in local dev mode (default Spring profile)
+** H2-Console: http://localhost:8080/h2
+** jdbc:h2:mem:testdb
+** sa/empty password
+* Postgres in staging and production
+** Spring profile: postgres-local
+* db migration with flyway
+
+=== TODOs
 * remove GET REST resource from FeedbackController
 * add further return status codes
 ** 200 if feedback has been overwritten
 ** 403 if feedback is not allowed (anymore), e.g. too late or early
 * configure logging dependency (SLF4j or Logback)
 * retrieve DukeCon Server conference list for checking valid feedback client requests
-
+* add timestamp to feedback db table
