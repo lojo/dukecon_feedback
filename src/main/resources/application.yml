@@ -26,8 +26,8 @@ spring:
     password:
     driver-class-name: org.h2.Driver
   flyway:
-    enabled: true
     locations: classpath:db/migration/common,classpath:db/migration/h2
+    enabled: true
 
 ---
 
@@ -38,6 +38,39 @@ keycloak:
 
 spring:
   profiles: latest
+
+---
+
+spring:
+  profiles: postgres-local
+
+postgres:
+  host: localhost
+  port: 5432
+  dbname: dukecon
+
+spring:
+  jpa:
+    database: POSTGRESQL
+    platform: postgres
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+  h2:
+    console:
+      enabled: false
+  datasource:
+    url: ${spring.flyway.url}
+    username: dukecon
+    password: dukecon
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    locations: classpath:db/migration/common,classpath:db/migration/postgresql
+    driver: org.postgresql.Driver
+    url: jdbc:postgresql://${postgres.host}:${postgres.port}/${postgres.dbname}
+    user: dukecon
+    password: dukecon
 
 ---
 
