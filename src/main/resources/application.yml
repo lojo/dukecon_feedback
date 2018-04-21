@@ -64,6 +64,7 @@ spring:
     url: jdbc:postgresql://${postgres.host}:${postgres.port}/${postgres.dbname}
     user: dukecon
     password: dukecon
+    schemas: feedback
 
 postgres:
   host: localhost
