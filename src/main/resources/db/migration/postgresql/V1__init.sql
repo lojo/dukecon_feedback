@@ -7,4 +7,4 @@ create table feedback (
   rating int,
   primary key (id)
   );
-create sequence hibernate_sequence;
+create sequence if not exists public.hibernate_sequence;
