@@ -47,6 +47,7 @@ spring:
     platform: postgres
     properties:
       hibernate:
+        default_schema: ${postgres.schema}
         temp:
           use_jdbc_metadata_defaults: false
   h2:
@@ -65,12 +66,13 @@ spring:
     url: jdbc:postgresql://${postgres.host}:${postgres.port}/${postgres.dbname}
     user: dukecon
     password: dukecon
-    schemas: feedback
+    schemas: ${postgres.schema}
 
 postgres:
   host: localhost
   port: 5432
   dbname: dukecon
+  schema: feedback
 ---
 spring:
   profiles: debug-spring
