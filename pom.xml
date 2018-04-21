@@ -492,7 +492,7 @@
                                             <tag>latest</tag>
                                         </tags>
                                         <ports>
-                                            <port>8080</port>
+                                            <port>8090</port>
                                         </ports>
                                         <volumes>
                                             <volume>/var/cache/dukecon</volume>
@@ -512,7 +512,7 @@
                                             <interval>30s</interval>
                                             <timeout>5s</timeout>
                                             <retries>5</retries>
-                                            <cmd>wget -q -O /dev/null http://localhost:8080/actuator/health</cmd>
+                                            <cmd>wget -q -O /dev/null http://localhost:8090/actuator/health</cmd>
                                         </healthCheck>
                                         <workdir>/opt/dukecon</workdir>
                                         <cleanup>false</cleanup>
@@ -540,7 +540,7 @@
                                                 port (which must be exposed) will be dynamically mapped and this (random)
                                                 port will be assigned to the maven variable ${tomcat.port}. Multiple port
                                                 mapping can be specified here -->
-                                            <port>dukecon.port:8080</port>
+                                            <port>dukecon.port:8090</port>
                                         </ports>
                                         <wait>
                                             <!-- The plugin waits until this URL is reachable via HTTP ... -->
