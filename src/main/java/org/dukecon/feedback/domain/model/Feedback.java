@@ -13,10 +13,8 @@ public class Feedback {
     @Size(max = 255)
     private String author;
     @NonNull
-    @Size(max = 255)
     private ConferenceId conferenceId;
     @NonNull
-    @Size(max = 255)
     private TalkId talkId;
     @Size(max = 4096)
     private String comment;
