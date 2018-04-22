@@ -17,9 +17,9 @@ pipeline {
                 withMaven {
                     script {
                         if (env.BRANCH_NAME == "develop") {
-                            sh 'mvn clean deploy'
+                            sh 'mvn -Ptestcontainers clean deploy'
                         } else {
-                            sh 'mvn clean verify'
+                            sh 'mvn -Ptestcontainers clean verify'
                         }
                     }
                 }
