@@ -79,7 +79,7 @@ postgres:
 ---
 
 spring:
-  profiles: postgres-local
+  profiles: postgresql-local
 
   jpa:
     database: POSTGRESQL

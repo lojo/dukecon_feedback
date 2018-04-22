@@ -24,8 +24,9 @@ Tim Riemer; Falk Sippach
 ** H2-Console: http://localhost:8080/h2
 ** jdbc:h2:mem:testdb
 ** sa/empty password
-* Postgres in staging and production
-** Spring profile: postgres-local
+* PostgreSQL
+** in staging and production use Spring profile: postgresql
+** for local/developer testing (and testcontainers) use Spring profile: postgresql-local
 * db migration with flyway
 
 === TODOs

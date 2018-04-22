@@ -20,7 +20,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("postgres-local")
+@ActiveProfiles("postgresql-local")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DukeconFeedbackMain.class)
 @ContextConfiguration(initializers = FeedbackStoreJPAPostgresTest.Initializer.class)
