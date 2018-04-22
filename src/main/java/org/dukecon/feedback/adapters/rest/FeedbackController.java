@@ -10,12 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequestMapping("rest/feedback")
 @RestController
@@ -26,7 +23,7 @@ public class FeedbackController {
     private DukeconFeedbackApplication dukeconFeedbackApplication;
 
     @PutMapping("event/{conferenceId}/{eventId}")
-    public ResponseEntity sendFeedback(@PathVariable("conferenceId") String conferenceId, @PathVariable("eventId") String eventId, @RequestBody FeedbackInput feedbackInput) {
+    public ResponseEntity sendFeedback(@PathVariable("conferenceId") String conferenceId, @PathVariable("eventId") String eventId, @RequestBody @Valid FeedbackInput feedbackInput) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Feedback feedback
                 = Feedback.builder()
