@@ -38,7 +38,46 @@ keycloak:
   realm: dukecon-latest
   credentials:
     secret: 7585621d-bc63-4718-8d18-fc9cd2c6a22d
+
 ---
+
+spring:
+  profiles: postgresql
+
+  jpa:
+    database: POSTGRESQL
+    platform: postgres
+    properties:
+      hibernate:
+        default_schema: ${postgres.schema}
+        temp:
+          use_jdbc_metadata_defaults: false
+  h2:
+    console:
+      enabled: false
+
+  datasource:
+    url: ${spring.flyway.url}
+    username: dukecon
+    password: dukecon
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    locations: classpath:db/migration/common,classpath:db/migration/postgresql
+    driver: org.postgresql.Driver
+    url: jdbc:postgresql://${postgres.host}:${postgres.port}/${postgres.dbname}
+    user: dukecon
+    password: dukecon
+    schemas: ${postgres.schema}
+
+postgres:
+  host: postgres
+  port: 5432
+  dbname: dukecon
+  schema: feedback
+
+---
+
 spring:
   profiles: postgres-local
 
@@ -73,7 +112,9 @@ postgres:
   port: 5432
   dbname: dukecon
   schema: feedback
+
 ---
+
 spring:
   profiles: debug-spring
 
@@ -82,4 +123,5 @@ logging:
     org:
       springframework: debug
       flywaydb: debug
+
 ---
