@@ -36,6 +36,16 @@ pipeline {
                 }
             }
         }
+        stage('Publish Docs') {
+            publishHTML(target: [allowMissing         : true,
+                                 alwaysLinkToLastBuild: false,
+                                 keepAll              : true,
+                                 reportDir            : 'target/generated-docs/asciidoc',
+                                 reportFiles          : 'api-guide.html',
+                                 reportName           : 'REST API'
+                                ]
+            )
+        }
     }
     post {
         failure {
