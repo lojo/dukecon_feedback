@@ -74,6 +74,6 @@ public class FeedbackStoreJPAPostgresTest {
                 .talkId(talkId)
                 .comment("No Comment")
                 .build();
-        feedbackStore.save(feedback);
+        feedbackStore.saveOverwriteExisting(feedback);
     }
 }

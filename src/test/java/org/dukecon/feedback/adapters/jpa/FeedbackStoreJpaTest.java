@@ -29,6 +29,6 @@ public class FeedbackStoreJpaTest {
                 .talkId(talkId)
                 .comment("No Comment")
                 .build();
-        feedbackStore.save(feedback);
+        feedbackStore.saveOverwriteExisting(feedback);
     }
 }

@@ -14,7 +14,7 @@ public class DukeconFeedbackApplication {
     @NonNull
     private FeedbackStore repository;
 
-    public void save (Feedback feedback) {
-        repository.save(feedback);
+    public void save(Feedback feedback) {
+        repository.saveOverwriteExisting(feedback);
     }
 }
