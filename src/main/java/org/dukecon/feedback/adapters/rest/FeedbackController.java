@@ -23,7 +23,7 @@ public class FeedbackController {
     private DukeconFeedbackApplication dukeconFeedbackApplication;
 
     @PutMapping("event/{conferenceId}/{eventId}")
-    public ResponseEntity sendFeedback(@PathVariable("conferenceId") String conferenceId, @PathVariable("eventId") String eventId, @RequestBody @Valid FeedbackInput feedbackInput) {
+    public ResponseEntity sendFeedback(@PathVariable String conferenceId, @PathVariable String eventId, @RequestBody @Valid FeedbackInput feedbackInput) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Feedback feedback
                 = Feedback.builder()
@@ -38,7 +38,7 @@ public class FeedbackController {
     }
 
     @GetMapping("event/{conferenceId}/{eventId}")
-    public String existsFeedback(@PathVariable("conferenceId") String conferenceId, @PathVariable("eventId") String eventId) {
+    public String existsFeedback(@PathVariable String conferenceId, @PathVariable String eventId) {
         System.out.println(String.format("feedback for %s/%s (Authentication: %s)", conferenceId, eventId, SecurityContextHolder.getContext().getAuthentication()));
         return "Ok (Dummy data)";
     }

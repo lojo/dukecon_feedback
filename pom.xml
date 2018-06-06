@@ -320,6 +320,7 @@
                         <compilerArgs>
                             <arg>-Xlint:unchecked</arg>
                             <arg>-Xlint:deprecation</arg>
+                            <arg>-parameters</arg>
                         </compilerArgs>
                     </configuration>
                 </plugin>
