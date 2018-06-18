@@ -1,5 +1,6 @@
 package org.dukecon.feedback.adapters.rest;
 
+import lombok.RequiredArgsConstructor;
 import org.dukecon.feedback.domain.DukeconFeedbackApplication;
 import org.dukecon.feedback.domain.model.ConferenceId;
 import org.dukecon.feedback.domain.model.Feedback;
@@ -16,11 +17,11 @@ import javax.validation.Valid;
 
 @RequestMapping("rest/feedback")
 @RestController
+@RequiredArgsConstructor
 @PreAuthorize("isFullyAuthenticated() && hasRole('user')")
 public class FeedbackController {
 
-    @Autowired
-    private DukeconFeedbackApplication dukeconFeedbackApplication;
+    private final DukeconFeedbackApplication dukeconFeedbackApplication;
 
     @PutMapping("event/{conferenceId}/{eventId}")
     public ResponseEntity sendFeedback(@PathVariable String conferenceId, @PathVariable String eventId, @RequestBody @Valid FeedbackInput feedbackInput) {
