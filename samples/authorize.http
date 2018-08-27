@@ -2,6 +2,6 @@ POST https://dukecon.org/auth/realms/{{realm}}/login-actions/authenticate?code=q
 ### https://dukecon.org/auth/realms/dukecon-developer/protocol/openid-connect/auth?response_type=code&client_id=dukecon&scope=openid%20profile&state=OS9eVzt7esnA5EHBGilw1w24WcsQnjnONskAHVGCaYU%3D&redirect_uri=http://localhost:8080/login/oauth2/code/dukecon-developer
 Content-Type: application/x-www-form-urlencoded
 
-username=test_101@doag.org&password=zKjverwD
+username={{username}}&password={{password}}
 
 ###
