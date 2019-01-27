@@ -3,6 +3,7 @@ package org.dukecon.feedback.adapters.rest;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
+import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.client.KeycloakClientRequestFactory;
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
@@ -12,11 +13,11 @@ import org.keycloak.adapters.springsecurity.filter.KeycloakPreAuthActionsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,21 +27,24 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 /**
  * Configure Keycloak authentication.
  *
- * This is heavily inspired by https://blog.codecentric.de/2017/09/keycloak-und-spring-security-teil-2-integration-von-keycloak-in-spring-security/
+ * 27-01-19 : Pure Keycloak Documentation + Workaround from https://issues.jboss.org/browse/KEYCLOAK-8725
+ * Init:      This is heavily inspired by https://blog.codecentric.de/2017/09/keycloak-und-spring-security-teil-2-integration-von-keycloak-in-spring-security/
  */
-@KeycloakConfiguration
+@Configuration
+@ComponentScan(
+        basePackageClasses = KeycloakSecurityComponents.class,
+        excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.keycloak.adapters.springsecurity.management.HttpSessionManager"))
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-    private final KeycloakClientRequestFactory keycloakClientRequestFactory;
-
-    public SecurityConfig(KeycloakClientRequestFactory keycloakClientRequestFactory) {
-        this.keycloakClientRequestFactory = keycloakClientRequestFactory;
-
-        //to use principal and authentication together with @async
+    {
+        // for using @async
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-
     }
+
+    @Autowired
+    public KeycloakClientRequestFactory keycloakClientRequestFactory;
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -56,10 +60,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
      */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        KeycloakAuthenticationProvider keyCloakAuthProvider = keycloakAuthenticationProvider();
-        keyCloakAuthProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
-
-        auth.authenticationProvider(keyCloakAuthProvider);
+        auth.authenticationProvider(keycloakAuthenticationProvider());
     }
 
     /**

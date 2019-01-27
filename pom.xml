@@ -47,14 +47,14 @@
         <junit-jupiter.version>5.2.0</junit-jupiter.version>
         <junit-vintage.version>5.2.0</junit-vintage.version>
         <junit-platform.version>1.2.0</junit-platform.version>
-        <keycloak-spring.version>4.3.0.Final</keycloak-spring.version>
+        <keycloak-spring.version>4.8.3.Final</keycloak-spring.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <!--Surefire 2.21.0 does not generate REST doc snippets?!-->
         <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
         <mockito-junit-jupiter.version>2.21.0</mockito-junit-jupiter.version>
         <mockito.version>2.0.2-beta</mockito.version>
         <postgresql.version>42.2.5.jre7</postgresql.version>
-        <spring-boot.version>2.0.4.RELEASE</spring-boot.version>
+        <spring-boot.version>2.1.2.RELEASE</spring-boot.version>
         <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
         <testcontainers.version>1.8.3</testcontainers.version>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
@@ -141,6 +141,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.keycloak.bom</groupId>
+                <artifactId>keycloak-adapter-bom</artifactId>
+                <version>4.8.3.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
