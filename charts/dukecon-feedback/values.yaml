@@ -34,4 +34,4 @@ readinessProbe:
 terminationGracePeriodSeconds: 10
 javaOpts: ""
 dukeconOpts: ""
-springProfileActive: "docker" 
+springProfilesActive: "docker"
