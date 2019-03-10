@@ -14,4 +14,4 @@ COPY pom.xml target/lib* /opt/lib/
 # we could do with a better way to know the name - or to always create an app.jar or something
 COPY target/*.jar /opt/app.jar
 WORKDIR /opt
-CMD ["java", "${JAVA_OPTS}", "-jar", "app.jar", "${DUKECON_OPTS}"]
+CMD java ${JAVA_OPTS} -jar app.jar ${DUKECON_OPTS}
