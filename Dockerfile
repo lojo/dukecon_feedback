@@ -5,6 +5,7 @@ EXPOSE 8090
 
 ENV JAVA_OPTS ""
 ENV DUKECON_OPTS ""
+ENV SPRING_PROFILES_ACTIVE ""
 
 # copy pom.xml and wildcards to avoid this command failing if there's no target/lib directory
 COPY pom.xml target/lib* /opt/lib/
