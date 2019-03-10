@@ -23,6 +23,11 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}
+        env:
+        - name: JAVA_OPTS
+          value: "{{ .Values.javaOpts }}"
+        - name: DUKECON_OPTS
+          value: "{{ .Values.dukeconOpts }}"
         livenessProbe:
           httpGet:
             path: {{ .Values.probePath }}
