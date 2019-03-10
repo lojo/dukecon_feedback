@@ -24,10 +24,12 @@ spec:
         ports:
         - containerPort: {{ .Values.service.internalPort }}
         env:
-        - name: JAVA_OPTS
-          value: "{{ .Values.javaOpts }}"
         - name: DUKECON_OPTS
           value: "{{ .Values.dukeconOpts }}"
+        - name: JAVA_OPTS
+          value: "{{ .Values.javaOpts }}"
+        - name: SPRING_PROFILES_ACTIVE
+          value: "{{ .Values.springProfileActive }}"
         livenessProbe:
           httpGet:
             path: {{ .Values.probePath }}
