@@ -3,6 +3,9 @@ ENV PORT 8090
 ENV CLASSPATH /opt/lib
 EXPOSE 8090
 
+ENV JAVA_OPTS ""
+ENV DUKECON_OPTS ""
+
 # copy pom.xml and wildcards to avoid this command failing if there's no target/lib directory
 COPY pom.xml target/lib* /opt/lib/
 
@@ -11,4 +14,4 @@ COPY pom.xml target/lib* /opt/lib/
 # we could do with a better way to know the name - or to always create an app.jar or something
 COPY target/*.jar /opt/app.jar
 WORKDIR /opt
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "${JAVA_OPTS}", "-jar", "app.jar", "${DUKECON_OPTS}"]
