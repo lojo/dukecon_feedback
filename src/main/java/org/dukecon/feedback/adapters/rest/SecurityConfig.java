@@ -3,6 +3,7 @@ package org.dukecon.feedback.adapters.rest;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
+import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.client.KeycloakClientRequestFactory;
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
@@ -21,6 +22,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
@@ -53,15 +55,13 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         return new KeycloakRestTemplate(keycloakClientRequestFactory);
     }
 
-    /**
-     * registers the Keycloakauthenticationprovider in spring context
-     * and sets its mapping strategy for roles/authorities (mapping to spring seccurities' default ROLE_... for authorities ).
-     * @param auth SecurityBuilder to build authentications and add details like authproviders etc.
-     * @throws Exception
-     */
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(keycloakAuthenticationProvider());
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
+        // Spring Security wants roles like "ROLE_xxx", use SimpleAuthorityMapper to achieve this
+        // so naming the KC roles can be done without the prefix
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+        auth.authenticationProvider(keycloakAuthenticationProvider);
     }
 
     /**
